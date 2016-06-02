@@ -1,0 +1,41 @@
+---
+- name: replace yum mirrorrepository riken
+  copy: src=CentOS-Base.repo dest=/etc/yum.repos.d/
+
+- name: yum update packages
+  yum: name=* state=latest
+
+- name: add a new user
+  user:
+    name: "{{ user_name }}"
+    password: "{{ user_pass }}"
+    state: present
+    groups: wheel
+
+- name: sudo enable and nopassword wheel
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%wheel' line='%wheel ALL=(ALL) NOPASSWD: ALL'"
+
+- name: copy repository the epel.repo
+  copy: src=epel.repo dest=/etc/yum.repos.d/
+
+- name: copy repository the remi.repo
+  copy: src=remi.repo dest=/etc/yum.repos.d/
+
+- name: import epel GPG key.
+  rpm_key:
+    key: http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+    state: present
+
+- name: import remi GPG key.
+  rpm_key:
+    key: http://rpms.remirepo.net/RPM-GPG-KEY-remi
+    state: present
+
+- name: update timezone
+  command: timedatectl set-timezone Asia/Tokyo
+
+- name: Install libselinux-python for selinux
+  yum: name=libselinux-python state=present
+
+- name: disable selinux
+  selinux: state=disabled
