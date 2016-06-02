@@ -39,3 +39,6 @@
 
 - name: disable selinux
   selinux: state=disabled
+
+- name: install 'Development tools'
+  yum: name="@Development tools" state=present
