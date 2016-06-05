@@ -45,3 +45,11 @@
 
 - name: install the git
   yum: name=git state=latest
+
+- name: install the imagemagick
+  yum: name={{ item }} state=latest
+  with_items:
+    - libjpeg-devel
+    - libpng-devel
+    - ImageMagick
+    - ImageMagick-devel
