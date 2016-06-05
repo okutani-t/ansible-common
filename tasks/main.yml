@@ -42,3 +42,6 @@
 
 - name: install 'Development tools'
   yum: name="@Development tools" state=present
+
+- name: install the git
+  yum: name=git state=latest
