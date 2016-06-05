@@ -53,3 +53,11 @@
     - libpng-devel
     - ImageMagick
     - ImageMagick-devel
+
+- name: install the vim
+  yum: name=vim-enhanced
+
+- name: add vim alias to /etc/profile
+  lineinfile: >
+    dest=/etc/profile
+    line="alias vi='vim'"
